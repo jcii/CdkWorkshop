@@ -1,0 +1,5 @@
+AWS CDK tutorial
+- Constructs can introduce IAM changes and security issues. Limited tooling to scan atm.
+
+Serverless architecture: https://youtu.be/9IYpGTS7Jy0?t=499
+-  Default API gateway profile has CDN, not tuned for intra-region communication.
