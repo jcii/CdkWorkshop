@@ -9,14 +9,22 @@ export class CdkWorkshopStack extends cdk.Stack {
     const hello = new lambda.Function(this, 'HelloHandler', {
       runtime: lambda.Runtime.NODEJS_10_X,
       code: lambda.Code.fromAsset('lambda'),
-      handler: 'hello.handler'
+      handler: 'hello.handler',
+      tracing: lambda.Tracing.ACTIVE
     });
 
     const helloWithCounter = new HitCounter(this, 'HelloHitCounter', {
       downstream: hello
     });
     new apigw.LambdaRestApi(this, 'Endpoint', {
-      handler: helloWithCounter.handler  
+      handler: helloWithCounter.handler,
+      deployOptions: {
+        metricsEnabled: true,
+        loggingLevel: apigw.MethodLoggingLevel.INFO,
+        dataTraceEnabled: true,
+        tracingEnabled: true,
+        stageName: 'testyMcTestface'
+      }
     })
   }
 }
